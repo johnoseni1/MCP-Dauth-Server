@@ -58,11 +58,11 @@ python db_setup.py
 *Note: If deploying to Railway/cloud, this script usually runs as a build step or one-off command.*
 
 ### Running the Server
-The server is configured to run via **Standard I/O (stdio)**, which is the standard mode for MCP servers running within an agent host/runner.
-
-```bash
 python main.py
 ```
+
+- **Local Development**: Runs via **Stdio** by default.
+- **Cloud Deployment**: Automatically switches to **HTTP/SSE** if the `PORT` environment variable is detected (e.g., in Railway/Render).
 
 ##  Testing Locally
 Use the included `test_client.py` to verify functionality. It extracts the tools directly from the server instance for testing.
@@ -71,10 +71,27 @@ Use the included `test_client.py` to verify functionality. It extracts the tools
 python test_client.py
 ```
 
-### Interactive Verification
-To manually test individual tools (e.g., inserting specific data into the database):
+### Interactive Manual Testing
+For manual testing and exploration without writing code, use the **Interactive Client**. This tool provides a menu-driven interface to execute any available tool with custom inputs.
 
-```bash
-python interactive_client.py
-```
-This launches a menu-driven interface where you can select tools and input your own parameters.
+#### How to Use
+1. **Launch the Client**:
+   ```bash
+   python interactive_client.py
+   ```
+
+2. **Select a Tool**:
+   - You will see a numbered list of all available tools (e.g., `1. calculate_discount`, `5. supabase_insert`).
+   - Enter the number corresponding to the tool you want to run.
+
+3. **Input Parameters**:
+   - The client will prompt you for each required argument.
+   - **Simple Values**: Enter strings, numbers, or booleans directly (e.g., `100`, `Gaming Headset`, `true`).
+   - **JSON / Complex Data**: For arguments requiring a list or dictionary (like `filters` or `data`), enter valid JSON.
+     - *Example for `supabase_insert` data*: `{"name": "New Item", "price": 19.99, "stock_quantity": 50}`
+     - *Example for `supabase_query` filters*: `{"price": {"lt": 50}}`
+
+4. **View Results**:
+   - The tool output will be displayed in formatted JSON.
+   - Press **Enter** to return to the main menu.
+

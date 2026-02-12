@@ -87,7 +87,23 @@ server.register_tool(api.get_weather)
 
 
 if __name__ == "__main__":
-    print("🚀 Starting DAuth MCP Server (Modular Structure)...")
-    print("✅ Tools Registered from tools/ modules")
-    print("⚡ Serving via Stdio...")
-    asyncio.run(server.serve_stdio())
+    import asyncio
+    import sys
+
+
+    port = os.getenv("PORT")
+
+    try:
+        if port:
+            print(f"🚀 Starting DAuth MCP Server (HTTP Mode) on port {port}...")
+            print("✅ Tools Registered from tools/ modules")
+            print(f"⚡ Serving via HTTP/SSE on 0.0.0.0:{port}...")
+            asyncio.run(server.serve_streamable_http(host="0.0.0.0", port=int(port)))
+        else:
+            print("🚀 Starting DAuth MCP Server (Stdio Mode)...")
+            print("✅ Tools Registered from tools/ modules")
+            print("⚡ Serving via Stdio...")
+            asyncio.run(server.serve_stdio())
+    except KeyboardInterrupt:
+        print("\n👋 Server stopped by user.")
+        sys.exit(0)
