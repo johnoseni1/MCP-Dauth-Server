@@ -9,7 +9,12 @@ from dotenv import load_dotenv
 from dedalus_labs import AsyncDedalus, DedalusRunner
 
 
-from server import server
+# Import local server instance from main.py
+# (We use the instance directly to bypass remote connection logic for testing)
+try:
+    from main import server
+except ImportError:
+    from server import server
 
 load_dotenv()
 
