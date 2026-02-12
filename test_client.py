@@ -111,7 +111,7 @@ async def test_database_interaction():
     print("\n🗄️ Testing Database Interaction...")
     
     
-    insert_prompt = "Add a new product 'Gaming Headset' with price 89.99 and stock 15 to the products table."
+    insert_prompt = "Add a new product 'Gaming Headset' with price 89.99 and stock_quantity 15 to the products table."
     print(f"🤖 User: {insert_prompt}")
     
     client = AsyncDedalus(api_key=os.getenv("DEDALUS_API_KEY"))

@@ -5,7 +5,7 @@ from typing import Dict, List, Any, Optional
 import asyncpg
 from supabase import create_client, Client
 
-# Global pool for PostgreSQL connections
+
 _PG_POOL: Optional[asyncpg.Pool] = None
 
 async def get_pg_pool() -> asyncpg.Pool:
@@ -30,7 +30,6 @@ async def get_pg_pool() -> asyncpg.Pool:
 async def supabase_query(table: str, filters: Optional[Dict] = None, limit: int = 100) -> Dict:
     """Query Supabase table with filters"""
     try:
-        # Create client locally for the tool execution (lightweight)
         supabase: Client = create_client(
             os.getenv("SUPABASE_URL"),
             os.getenv("SUPABASE_KEY")
@@ -40,7 +39,18 @@ async def supabase_query(table: str, filters: Optional[Dict] = None, limit: int 
         
         if filters:
             for col, val in filters.items():
-                query = query.eq(col, val)
+                if isinstance(val, dict):
+                    for op, op_val in val.items():
+                        if op == 'lt': query = query.lt(col, op_val)
+                        elif op == 'lte': query = query.lte(col, op_val)
+                        elif op == 'gt': query = query.gt(col, op_val)
+                        elif op == 'gte': query = query.gte(col, op_val)
+                        elif op == 'like': query = query.like(col, op_val)
+                        elif op == 'ilike': query = query.ilike(col, op_val)
+                        elif op == 'neq': query = query.neq(col, op_val)
+                        else: query = query.eq(col, op_val) 
+                else:
+                    query = query.eq(col, val)
         
         response = await asyncio.to_thread(lambda: query.limit(limit).execute())
         
