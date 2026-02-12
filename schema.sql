@@ -1,21 +1,16 @@
-
+-- Enable UUID extension
 create extension if not exists "uuid-ossp";
 
-
-DROP TABLE IF EXISTS invoices CASCADE;
-DROP TABLE IF EXISTS products CASCADE;
-DROP TABLE IF EXISTS customers CASCADE;
-
-
-create table customers (
+-- 1. Customers Table
+create table if not exists customers (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) not null
 );
 
-
-create table products (
+-- 2. Products Table
+create table if not exists products (
   id uuid default uuid_generate_v4() primary key,
   name text not null,
   description text,
@@ -24,13 +19,13 @@ create table products (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
-
-create table invoices (
+-- 3. Invoices Table
+create table if not exists invoices (
   id uuid default uuid_generate_v4() primary key,
   customer_id uuid references customers(id),
   invoice_number text unique not null,
   total_amount decimal(10, 2) not null,
-  status text default 'pending', 
+  status text default 'pending', -- pending, paid, cancelled
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 

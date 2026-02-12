@@ -4,26 +4,26 @@ A comprehensive Model Context Protocol (MCP) server designed for **Business Logi
 
 ## Features
 
-### 1. 💼 Business Logic
+### 1.  Business Logic
 - **`calculate_discount`**: Compute final prices with discounts and tax.
 - **`validate_email`**: Validate email formats and domains.
 - **`generate_invoice`**: Create structured invoice dictionaries.
 - **`schedule_reminder`**: Mock scheduling for task reminders.
 
-### 2. 📈 Data Processing
+### 2.  Data Processing
 - **`analyze_csv_data`**: Calculate statistics (mean, max, sum) from CSV strings.
 - **`transform_json_data`**: Apply transformations (uppercase, scaling) to JSON lists.
 - **`filter_data`**: Filter datasets based on specific criteria.
 - **`aggregate_data`**: Group and aggregate data by fields.
 - **`merge_datasets`**: Join two datasets on common keys.
 
-### 3. 🗄️ Database (Supabase / PostgreSQL)
+### 3.  Database (Supabase / PostgreSQL)
 - **`supabase_query`**: Execute safe `SELECT` queries with filters.
 - **`supabase_insert`**: Insert records into tables.
 - **`supabase_update`**: Update existing records.
 - **`postgres_execute`**: Execute raw SQL queries (for complex operations).
 
-## 🚀 Deployment
+##  Deployment
 
 ### Prerequisites
 - Python 3.13+
@@ -64,7 +64,7 @@ The server is configured to run via **Standard I/O (stdio)**, which is the stand
 python server.py
 ```
 
-## 🧪 Testing Locally
+##  Testing Locally
 Use the included `test_client.py` to verify functionality. It extracts the tools directly from the server instance for testing.
 
 ```bash
