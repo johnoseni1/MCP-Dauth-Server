@@ -5,10 +5,32 @@ from typing import Dict, List, Any, Optional
 import asyncpg
 from supabase import create_client, Client
 
+# Global pool for PostgreSQL connections
+_PG_POOL: Optional[asyncpg.Pool] = None
+
+async def get_pg_pool() -> asyncpg.Pool:
+    """Get or create the global PostgreSQL connection pool"""
+    global _PG_POOL
+    if _PG_POOL is None:
+        try:
+            _PG_POOL = await asyncpg.create_pool(
+                host=os.getenv("POSTGRES_HOST"),
+                port=int(os.getenv("POSTGRES_PORT", "5432")),
+                database=os.getenv("POSTGRES_DB"),
+                user=os.getenv("POSTGRES_USER"),
+                password=os.getenv("POSTGRES_PASSWORD"),
+                min_size=1,
+                max_size=10
+            )
+        except Exception as e:
+            print(f"Warning: Could not initialize PG pool: {e}")
+            raise e
+    return _PG_POOL
+
 async def supabase_query(table: str, filters: Optional[Dict] = None, limit: int = 100) -> Dict:
     """Query Supabase table with filters"""
     try:
-        # Create client locally for the tool execution
+        # Create client locally for the tool execution (lightweight)
         supabase: Client = create_client(
             os.getenv("SUPABASE_URL"),
             os.getenv("SUPABASE_KEY")
@@ -73,25 +95,15 @@ async def supabase_update(table: str, filters: Dict, updates: Dict) -> Dict:
 
 
 async def postgres_execute(query: str, parameters: Optional[List] = None) -> Dict:
-    """Execute raw SQL query on PostgreSQL (Use with caution)"""
+    """Execute raw SQL query on PostgreSQL using connection pool"""
     try:
-        # Connect strictly for this operation - safer for stateless tools
-        conn = await asyncpg.connect(
-            host=os.getenv("POSTGRES_HOST"),
-            port=int(os.getenv("POSTGRES_PORT", "5432")),
-            database=os.getenv("POSTGRES_DB"),
-            user=os.getenv("POSTGRES_USER"),
-            password=os.getenv("POSTGRES_PASSWORD")
-        )
-        
-        try:
+        pool = await get_pg_pool()
+        async with pool.acquire() as conn:
             if query.strip().upper().startswith("SELECT"):
                 rows = await conn.fetch(query, *parameters) if parameters else await conn.fetch(query)
                 return {"success": True, "data": [dict(r) for r in rows]}
             else:
                 result = await conn.execute(query, *parameters) if parameters else await conn.execute(query)
                 return {"success": True, "result": result}
-        finally:
-            await conn.close()
     except Exception as e:
         return {"success": False, "error": str(e)}

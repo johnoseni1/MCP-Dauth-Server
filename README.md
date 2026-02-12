@@ -61,7 +61,7 @@ python db_setup.py
 The server is configured to run via **Standard I/O (stdio)**, which is the standard mode for MCP servers running within an agent host/runner.
 
 ```bash
-python server.py
+python main.py
 ```
 
 ##  Testing Locally
@@ -70,3 +70,11 @@ Use the included `test_client.py` to verify functionality. It extracts the tools
 ```bash
 python test_client.py
 ```
+
+### Interactive Verification
+To manually test individual tools (e.g., inserting specific data into the database):
+
+```bash
+python interactive_client.py
+```
+This launches a menu-driven interface where you can select tools and input your own parameters.
