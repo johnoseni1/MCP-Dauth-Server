@@ -3,7 +3,6 @@ import os
 import httpx
 from typing import Dict, List, Any, Optional
 
-# Global client for connection pooling (Keep-Alive)
 _CLIENT: Optional[httpx.AsyncClient] = None
 
 async def get_http_client() -> httpx.AsyncClient:

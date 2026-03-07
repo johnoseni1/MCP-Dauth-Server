@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dauth-mcp-server"
 version = "1.0.0"
-description = "Dedalus Labs DAuth MCP Server"
+description = "Production-Ready Business & Data Intelligence Server for AI Agents"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [

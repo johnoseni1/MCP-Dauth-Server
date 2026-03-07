@@ -8,7 +8,7 @@ def analyze_csv_data(csv_string: str) -> Dict:
     try:
         df = pd.read_csv(StringIO(csv_string))
         
-        # Numeric/String separation is good practice
+
         numeric_df = df.select_dtypes(include=['number'])
         
         stats = {
