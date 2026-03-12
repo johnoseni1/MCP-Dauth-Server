@@ -67,25 +67,29 @@ class InteractiveClient:
             
 
             try:
-                if (param.annotation == dict or param.annotation == Dict or 
-                    param.annotation == list or param.annotation == List):
+                # Annotations may be stored as strings due to `from __future__ import annotations`
+                ann = param.annotation
+                ann_str = ann if isinstance(ann, str) else getattr(ann, '__name__', str(ann))
+                ann_str = ann_str.lower()
+
+                if ann_str in ('dict', 'list', 'optional[dict]', 'optional[list]') or ann in (dict, Dict, list, List):
                     value = json.loads(user_input)
-                elif param.annotation == int:
+                elif ann_str == 'int' or ann == int:
                     value = int(user_input)
-                elif param.annotation == float:
+                elif ann_str == 'float' or ann == float:
                     value = float(user_input)
-                elif param.annotation == bool:
+                elif ann_str == 'bool' or ann == bool:
                     value = user_input.lower() in ('true', '1', 't', 'y', 'yes')
                 else:
                     value = user_input
-                
+
                 kwargs[param_name] = value
             except json.JSONDecodeError:
                 print(f"   ⚠️  Error parsing JSON for {param_name}. Using string '{user_input}'.")
                 kwargs[param_name] = user_input
             except ValueError:
-                 print(f"   ⚠️  Error converting type for {param_name}. Using original string.")
-                 kwargs[param_name] = user_input
+                print(f"   ⚠️  Error converting type for {param_name}. Using original string.")
+                kwargs[param_name] = user_input
 
         print("\n⏳ Running...")
         try:
@@ -102,26 +106,40 @@ class InteractiveClient:
     async def run(self):
         print("🚀 DAuth MCP Interactive Client")
         print("===============================")
-        
-        while True:
-            self.print_menu()
-            choice = input("\n👉 Select a tool (1-N) or 'q': ").strip()
-            
-            if choice.lower() == 'q':
-                print("Bye! 👋")
-                break
-                
-            try:
-                idx = int(choice) - 1
-                tool_names = list(self.tools.keys())
-                if 0 <= idx < len(tool_names):
-                    await self.execute_tool(tool_names[idx])
-                    input("\nPress Enter to continue...")
-                else:
-                    print("❌ Invalid selection")
-            except ValueError:
-                print("❌ Invalid input")
+
+        try:
+            while True:
+                self.print_menu()
+                try:
+                    choice = input("\n👉 Select a tool (1-N) or 'q': ").strip()
+                except (KeyboardInterrupt, EOFError):
+                    print("\n\n👋 Bye! (Ctrl+C detected)")
+                    break
+
+                if choice.lower() == 'q':
+                    print("Bye! 👋")
+                    break
+
+                try:
+                    idx = int(choice) - 1
+                    tool_names = list(self.tools.keys())
+                    if 0 <= idx < len(tool_names):
+                        await self.execute_tool(tool_names[idx])
+                        try:
+                            input("\nPress Enter to continue...")
+                        except (KeyboardInterrupt, EOFError):
+                            print("\n\n👋 Bye! (Ctrl+C detected)")
+                            break
+                    else:
+                        print("❌ Invalid selection. Please enter a number between 1 and", len(tool_names))
+                except ValueError:
+                    print("❌ Invalid input. Please enter a number or 'q'.")
+        except KeyboardInterrupt:
+            print("\n\n👋 Bye!")
 
 if __name__ == "__main__":
     client = InteractiveClient()
-    asyncio.run(client.run())
+    try:
+        asyncio.run(client.run())
+    except (KeyboardInterrupt, SystemExit):
+        pass  # Clean exit — no traceback
