@@ -27,7 +27,7 @@ Normally, building AI tools means writing custom integrations for every AI platf
 
 ## 🎤 OPENING
 
-> "Good [morning/afternoon] everyone. Today I'm going to show you a live demo of the **DAuth MCP Server** — a fully deployed AI tool server built on the **Model Context Protocol** standard, hosted on Dedalus Labs.
+> "Good Day. Today I'm going to show you a live demo of the **DAuth MCP Server** — a fully deployed AI tool server built on the **Model Context Protocol** standard, hosted on Dedalus Labs.
 >
 > Think of MCP as a USB standard for AI. Instead of every AI needing its own custom plugins, any MCP-compatible AI — Claude, GPT, Cursor — can plug into ONE server and immediately get access to all the tools inside it.
 >
