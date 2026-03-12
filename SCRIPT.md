@@ -152,13 +152,23 @@ Enter these values:
 
 ## Step 4 — Full AI Agent Demo (only if time allows)
 
- Now I want to show the full end-to-end. A real AI agent using these tools autonomously — no manual selection from my side, just a natural language instruction.
+Now I want to show the full end-to-end. A real AI agent using these tools autonomously — no manual selection from my side, just a natural language prompt.
+
+This test client talks to the DEPLOYED server on Dedalus Labs using the SDK. It passes the server identifier `johnoseni1/MCP-Dauth-Server` and the AI automatically discovers and calls all 17 tools.
 
 ```
 python test_client.py
 ```
 
- I sent plain English prompts to an AI. It read them, decided which tools to call on my deployed server, called them, and gave back a natural language response. The AI did all the tool selection by itself.
+I sent plain English prompts to Claude. It read them, decided which tools to call on the deployed server, called them, and returned a natural language response — the AI did all the tool selection by itself.
+
+The test runs four scenarios:
+- Business logic: calculate a discount price
+- Data processing: analyze CSV statistics
+- Database: insert a product, then query products
+- External API: get live weather for Lagos
+
+Each response shows what the AI said AND which MCP tools it called behind the scenes.
 
 ---
 
@@ -173,42 +183,51 @@ https://mcp.dedaluslabs.ai/0953950c17f204c4
 
 ## Testing the Deployed Server Without the Local Machine
 
-If you want to call the deployed server directly without running anything locally, there are a few ways.
+The correct way to test the deployed server remotely is using the Dedalus SDK with `mcp_servers`. This is what `test_client.py` does.
+
+Do NOT try to curl the MCP URL directly — Dedalus manages the routing internally through the SDK.
 
 ---
 
-### Option 1 — Using curl from any terminal
+### Option 1 — Use the SDK (recommended)
 
-Replace YOUR_DEDALUS_API_KEY below with your actual Dedalus API key.
-You can find it in your .env file under DEDALUS_API_KEY, or at: https://www.dedaluslabs.ai/dashboard/overview
+Create a file called `remote_test.py` anywhere on your machine, with your DEDALUS_API_KEY in a `.env` file next to it:
 
-List all tools:
-```
-curl -X POST https://mcp.dedaluslabs.ai/0953950c17f204c4 \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_DEDALUS_API_KEY" \
-  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+```python
+import asyncio
+import os
+from dotenv import load_dotenv
+from dedalus_labs import AsyncDedalus, DedalusRunner
+
+load_dotenv()
+
+async def main():
+    client = AsyncDedalus(api_key=os.getenv("DEDALUS_API_KEY"))
+    runner = DedalusRunner(client)
+
+    # Anthropic requires stream=True — use async for to collect chunks
+    print("Agent: ", end="", flush=True)
+    async for chunk in runner.run(
+        input="Calculate the final price for an item costing $200 with 15% discount and 5% tax.",
+        model="anthropic/claude-opus-4-6",
+        mcp_servers=["johnoseni1/MCP-Dauth-Server"],
+        stream=True,
+    ):
+        if hasattr(chunk, "choices") and chunk.choices:
+            delta = chunk.choices[0].delta
+            if hasattr(delta, "content") and delta.content:
+                print(delta.content, end="", flush=True)
+    print()
+
+asyncio.run(main())
 ```
 
-Call calculate_discount directly:
+Run it:
 ```
-curl -X POST https://mcp.dedaluslabs.ai/0953950c17f204c4 \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_DEDALUS_API_KEY" \
-  -d '{
-    "jsonrpc": "2.0",
-    "id": 2,
-    "method": "tools/call",
-    "params": {
-      "name": "calculate_discount",
-      "arguments": {
-        "price": 100,
-        "discount_percent": 20,
-        "tax_rate": 7.5
-      }
-    }
-  }'
+python remote_test.py
 ```
+
+The `mcp_servers=["johnoseni1/MCP-Dauth-Server"]` tells the Dedalus platform to route AI tool calls to your deployed server. You only need `DEDALUS_API_KEY` in `.env` — nothing else.
 
 ---
 
@@ -284,6 +303,8 @@ I am happy to take questions.
 |---------|-----|
 | ModuleNotFoundError | Run: source venv/bin/activate |
 | Missing DEDALUS_API_KEY | Check the .env file |
+| test_client.py: model error | Check the model name is "anthropic/claude-opus-4-6" |
+| test_client.py: server not found | Check MCP_SERVER = "johnoseni1/MCP-Dauth-Server" matches your Dedalus deployment |
 | Weather or search tool fails | Check OPENWEATHER_API_KEY and BRAVE_API_KEY in .env |
 | Supabase error | Check SUPABASE_URL and SUPABASE_KEY in .env |
-| 0 tools loaded | Make sure you are running from the project root folder |
+| 0 tools loaded in interactive client | Make sure you are running from the project root folder |
