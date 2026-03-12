@@ -189,12 +189,12 @@ Do NOT try to curl the MCP URL directly — Dedalus manages the routing internal
 
 ---
 
-### Option 1 — Test using Python (Two Methods)
+### Option 1 — Test using an External Script (Two Methods)
 
-I've created two scripts in the project folder to show exactly how people can consume this server now that it's live on the Dedalus Marketplace under the `littlbird` organization.
+I've set up two examples in the project folder to show exactly how people can consume this server now that it's live on the Dedalus Marketplace under the `littlbird` organization.
 
 #### Method A: Using the Dedalus AI SDK (`test_client.py`)
-This is the "magic" method. You give an AI model a prompt, and the Dedalus platform automatically routes the required tools to your deployed server.
+This is the "magic" method for Python developers. You give an AI model a prompt, and the Dedalus platform automatically routes the required tools to your deployed server.
 
 ```bash
 # Make sure your .env has DEDALUS_API_KEY
@@ -202,14 +202,13 @@ python test_client.py
 ```
 **What happens here:** The script uses `mcp_servers=["littlbird/MCP-Dauth-Server"]`. The AI (GPT-4.1) realizes it needs a tool (e.g., `calculate_discount`), sends the request via Dedalus to your live server, your server executes the math, and returns the result to the AI to answer the user.
 
-#### Method B: Direct Protocol Connection (`direct_test.py`)
-This is the "raw" method. If someone just wants to execute tools directly without an AI model in the loop, they can connect directly to your server URL using the MCP Protocol.
+#### Method B: Direct REST API / cURL (`curl_test.sh`)
+This shows that **anyone** can use your server in any language (JavaScript, Go, Bash, Postman) without using the Dedalus Python SDK. They just hit the standard Dedalus API endpoint.
 
 ```bash
-# Make sure your .env has DEDALUS_API_KEY
-python direct_test.py
+./curl_test.sh
 ```
-**What happens here:** The script connects directly to `https://mcp.dedaluslabs.ai/0953950c17f204c4` using the `MCPClient`, authenticates with your API key, and calls the exact Python functions (`calculate_discount`, `validate_email`) just like a traditional REST API.
+**What happens here:** It sends a standard HTTP POST request to `https://api.dedaluslabs.ai/v1/chat/completions` with your API Key as the Bearer token. By including `"mcp_servers": ["littlbird/MCP-Dauth-Server"]` in the JSON payload, the Dedalus gateway automatically connects the AI model to your live tools!
 
 ---
 
