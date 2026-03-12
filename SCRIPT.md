@@ -179,17 +179,22 @@ If you want to call the deployed server directly without running anything locall
 
 ### Option 1 — Using curl from any terminal
 
+Replace YOUR_DEDALUS_API_KEY below with your actual Dedalus API key.
+You can find it in your .env file under DEDALUS_API_KEY, or at: https://www.dedaluslabs.ai/dashboard/overview
+
 List all tools:
 ```
 curl -X POST https://mcp.dedaluslabs.ai/0953950c17f204c4 \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_DEDALUS_API_KEY" \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
 ```
 
-Call a tool directly:
+Call calculate_discount directly:
 ```
 curl -X POST https://mcp.dedaluslabs.ai/0953950c17f204c4 \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_DEDALUS_API_KEY" \
   -d '{
     "jsonrpc": "2.0",
     "id": 2,
