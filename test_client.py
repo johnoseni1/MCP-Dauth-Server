@@ -1,11 +1,11 @@
 """
 DAuth MCP Server — Test Client
-Uses the Dedalus SDK to call your DEPLOYED server via mcp_servers.
+Tests the DEPLOYED server using the Dedalus SDK.
 
 How it works:
-- DedalusRunner sends your prompt to Claude via the Dedalus API
-- Claude discovers and calls tools from your deployed MCP server
-- stream=True is required by Anthropic; we collect chunks with async for
+- DedalusRunner sends your prompt to an AI model via the Dedalus API
+- The AI discovers and calls tools from your deployed MCP server
+- mcp_servers=["johnoseni1/MCP-Dauth-Server"] routes to your specific server
 
 Requires in .env:
     DEDALUS_API_KEY=your-key
@@ -18,11 +18,12 @@ from dedalus_labs import AsyncDedalus, DedalusRunner
 
 load_dotenv()
 
-# Your deployed MCP server on Dedalus Labs — format: "github-org/repo-name"
-MCP_SERVER = "johnoseni1/MCP-Dauth-Server"
+# Your deployed MCP server identifier: "dedalus-org/repo-name"
+# From: https://www.dedaluslabs.ai/marketplace/littlbird/MCP-Dauth-Server
+MCP_SERVER = "littlbird/MCP-Dauth-Server"
 
-# Model — format: "provider/model-name"
-MODEL = "anthropic/claude-opus-4-6"
+# Using OpenAI GPT-4.1 — works cleanly with Dedalus runner (no forced streaming)
+MODEL = "openai/gpt-4.1"
 
 
 def make_runner() -> DedalusRunner:
@@ -34,29 +35,26 @@ def make_runner() -> DedalusRunner:
 
 
 async def run_test(label: str, prompt: str) -> None:
-    """Run a single test against the deployed MCP server and print streamed output."""
+    """Run a single prompt against the deployed MCP server."""
     print(f"\n--- {label} ---")
     print(f"User: {prompt}")
-    print("Agent: ", end="", flush=True)
 
     runner = make_runner()
-
-    # stream=True is required by Anthropic Claude.
-    # When stream=True, runner.run() returns an async generator — use async for.
-    final_text = ""
-    async for chunk in runner.run(
+    result = await runner.run(
         input=prompt,
         model=MODEL,
         mcp_servers=[MCP_SERVER],
-        stream=True,
-    ):
-        if hasattr(chunk, "choices") and chunk.choices:
-            delta = chunk.choices[0].delta
-            if hasattr(delta, "content") and delta.content:
-                final_text += delta.content
-                print(delta.content, end="", flush=True)
+    )
 
-    print()  # newline after streamed output
+    # result.output is the final text response
+    print(f"Agent: {result.output}")
+
+    # Show which MCP tools the AI called
+    if hasattr(result, "mcp_results") and result.mcp_results:
+        print("MCP tools called:")
+        for r in result.mcp_results:
+            duration = getattr(r, "duration_ms", "?")
+            print(f"  {r.tool_name} ({duration}ms): {str(r.result)[:200]}")
 
 
 async def main():
@@ -70,7 +68,12 @@ async def main():
         await run_test(
             "Business Logic — calculate_discount",
             "Calculate the final price for an item that costs $100 "
-            "with a 20% discount and 7.5% tax.",
+            "with a 20% discount and 7.5% tax. Use the calculate_discount tool.",
+        )
+
+        await run_test(
+            "Business Logic — validate_email",
+            "Validate this email address: john@dedaluslabs.ai",
         )
 
         await run_test(
@@ -78,17 +81,6 @@ async def main():
             "Analyze this CSV data and give me the mean, max, and sum "
             "for age and salary:\nname,age,salary\n"
             "John,30,50000\nJane,25,60000\nBob,35,75000",
-        )
-
-        await run_test(
-            "Database — supabase_insert",
-            "Insert a new product called 'Demo Widget' with price 49.99 "
-            "and stock_quantity 10 into the products table.",
-        )
-
-        await run_test(
-            "Database — supabase_query",
-            "Find all products in the products table that cost less than $100.",
         )
 
         await run_test(
@@ -103,7 +95,7 @@ async def main():
     except (KeyboardInterrupt, SystemExit):
         print("\nStopped.")
     except Exception as e:
-        print(f"\nTest failed: {e}")
+        print(f"\nTest failed: {type(e).__name__}: {e}")
         raise
 
 

@@ -154,7 +154,7 @@ Enter these values:
 
 Now I want to show the full end-to-end. A real AI agent using these tools autonomously — no manual selection from my side, just a natural language prompt.
 
-This test client talks to the DEPLOYED server on Dedalus Labs using the SDK. It passes the server identifier `johnoseni1/MCP-Dauth-Server` and the AI automatically discovers and calls all 17 tools.
+This test client talks to the DEPLOYED server on Dedalus Labs using the SDK. It passes the server identifier `littlbird/MCP-Dauth-Server` and the AI automatically discovers and calls all 17 tools.
 
 ```
 python test_client.py
@@ -210,7 +210,7 @@ async def main():
     async for chunk in runner.run(
         input="Calculate the final price for an item costing $200 with 15% discount and 5% tax.",
         model="anthropic/claude-opus-4-6",
-        mcp_servers=["johnoseni1/MCP-Dauth-Server"],
+        mcp_servers=["littlbird/MCP-Dauth-Server"],
         stream=True,
     ):
         if hasattr(chunk, "choices") and chunk.choices:
@@ -227,7 +227,7 @@ Run it:
 python remote_test.py
 ```
 
-The `mcp_servers=["johnoseni1/MCP-Dauth-Server"]` tells the Dedalus platform to route AI tool calls to your deployed server. You only need `DEDALUS_API_KEY` in `.env` — nothing else.
+The `mcp_servers=["littlbird/MCP-Dauth-Server"]` tells the Dedalus platform to route AI tool calls to your deployed server. You only need `DEDALUS_API_KEY` in `.env` — nothing else.
 
 ---
 
@@ -304,7 +304,7 @@ I am happy to take questions.
 | ModuleNotFoundError | Run: source venv/bin/activate |
 | Missing DEDALUS_API_KEY | Check the .env file |
 | test_client.py: model error | Check the model name is "anthropic/claude-opus-4-6" |
-| test_client.py: server not found | Check MCP_SERVER = "johnoseni1/MCP-Dauth-Server" matches your Dedalus deployment |
+| test_client.py: server not found | Check MCP_SERVER = "littlbird/MCP-Dauth-Server" matches your Dedalus deployment |
 | Weather or search tool fails | Check OPENWEATHER_API_KEY and BRAVE_API_KEY in .env |
 | Supabase error | Check SUPABASE_URL and SUPABASE_KEY in .env |
 | 0 tools loaded in interactive client | Make sure you are running from the project root folder |
