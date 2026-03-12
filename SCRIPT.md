@@ -25,7 +25,7 @@ Normally, building AI tools means writing custom integrations for every AI platf
 
 ---
 
-## 🎤 OPENING — What to SAY
+## 🎤 OPENING
 
 > "Good [morning/afternoon] everyone. Today I'm going to show you a live demo of the **DAuth MCP Server** — a fully deployed AI tool server built on the **Model Context Protocol** standard, hosted on Dedalus Labs.
 >
