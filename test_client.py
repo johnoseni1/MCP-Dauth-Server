@@ -18,11 +18,9 @@ from dedalus_labs import AsyncDedalus, DedalusRunner
 
 load_dotenv()
 
-# Your deployed MCP server identifier: "dedalus-org/repo-name"
 # From: https://www.dedaluslabs.ai/marketplace/littlbird/MCP-Dauth-Server
 MCP_SERVER = "littlbird/MCP-Dauth-Server"
 
-# Using OpenAI GPT-4.1 — works cleanly with Dedalus runner (no forced streaming)
 MODEL = "openai/gpt-4.1"
 
 

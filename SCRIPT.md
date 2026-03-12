@@ -189,45 +189,27 @@ Do NOT try to curl the MCP URL directly — Dedalus manages the routing internal
 
 ---
 
-### Option 1 — Use the SDK (recommended)
+### Option 1 — Test using Python (Two Methods)
 
-Create a file called `remote_test.py` anywhere on your machine, with your DEDALUS_API_KEY in a `.env` file next to it:
+I've created two scripts in the project folder to show exactly how people can consume this server now that it's live on the Dedalus Marketplace under the `littlbird` organization.
 
-```python
-import asyncio
-import os
-from dotenv import load_dotenv
-from dedalus_labs import AsyncDedalus, DedalusRunner
+#### Method A: Using the Dedalus AI SDK (`test_client.py`)
+This is the "magic" method. You give an AI model a prompt, and the Dedalus platform automatically routes the required tools to your deployed server.
 
-load_dotenv()
-
-async def main():
-    client = AsyncDedalus(api_key=os.getenv("DEDALUS_API_KEY"))
-    runner = DedalusRunner(client)
-
-    # Anthropic requires stream=True — use async for to collect chunks
-    print("Agent: ", end="", flush=True)
-    async for chunk in runner.run(
-        input="Calculate the final price for an item costing $200 with 15% discount and 5% tax.",
-        model="anthropic/claude-opus-4-6",
-        mcp_servers=["littlbird/MCP-Dauth-Server"],
-        stream=True,
-    ):
-        if hasattr(chunk, "choices") and chunk.choices:
-            delta = chunk.choices[0].delta
-            if hasattr(delta, "content") and delta.content:
-                print(delta.content, end="", flush=True)
-    print()
-
-asyncio.run(main())
+```bash
+# Make sure your .env has DEDALUS_API_KEY
+python test_client.py
 ```
+**What happens here:** The script uses `mcp_servers=["littlbird/MCP-Dauth-Server"]`. The AI (GPT-4.1) realizes it needs a tool (e.g., `calculate_discount`), sends the request via Dedalus to your live server, your server executes the math, and returns the result to the AI to answer the user.
 
-Run it:
-```
-python remote_test.py
-```
+#### Method B: Direct Protocol Connection (`direct_test.py`)
+This is the "raw" method. If someone just wants to execute tools directly without an AI model in the loop, they can connect directly to your server URL using the MCP Protocol.
 
-The `mcp_servers=["littlbird/MCP-Dauth-Server"]` tells the Dedalus platform to route AI tool calls to your deployed server. You only need `DEDALUS_API_KEY` in `.env` — nothing else.
+```bash
+# Make sure your .env has DEDALUS_API_KEY
+python direct_test.py
+```
+**What happens here:** The script connects directly to `https://mcp.dedaluslabs.ai/0953950c17f204c4` using the `MCPClient`, authenticates with your API key, and calls the exact Python functions (`calculate_discount`, `validate_email`) just like a traditional REST API.
 
 ---
 
