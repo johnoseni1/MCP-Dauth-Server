@@ -25,7 +25,7 @@ Dedalus docs: https://docs.dedaluslabs.ai/dmcp
 
 ---
 
-## Opening (say this to the audience)
+## Opening 
 
 Good morning everyone. My name is John and today I will show you a live demo of the DAuth MCP Server — a fully deployed AI tool server I built using the Model Context Protocol, hosted on Dedalus Labs.
 
@@ -242,7 +242,7 @@ The deployed server appears in the dashboard. You can test tool calls directly f
 
 ---
 
-## Closing (say this to the audience)
+## Closing 
 
 So to wrap up what you have just seen:
 
