@@ -1,234 +1,193 @@
-# 🚀 DAuth MCP Server — DEMO SCRIPT
-> **Read this out loud. Follow each step exactly. Sections marked SAY are what you speak to the audience.**
+# DAuth MCP Server — Demo Script
+John's personal notes for the live demo.
 
 ---
 
-## 📌 WHAT IS THIS SERVER? (Know this before you go on stage)
+## What This Server Is
 
-**DAuth MCP Server** is a production-deployed AI tool server built using the **Model Context Protocol (MCP)** standard, hosted on **Dedalus Labs** infrastructure.
+My name is John. I built and deployed an MCP server called the **DAuth MCP Server**, hosted on Dedalus Labs infrastructure.
 
-> **Live Server URL → https://mcp.dedaluslabs.ai/0953950c17f204c4**
+The live server URL is:
+https://mcp.dedaluslabs.ai/0953950c17f204c4
 
-It exposes **17 tools** in 4 categories so that any AI agent — Claude, GPT, Cursor, or your own custom agent — can call them automatically using plain English, without needing any custom integrations.
+MCP stands for Model Context Protocol. It is an open standard — think of it like a USB port for AI. Instead of building custom integrations for every AI tool out there, you build one MCP server, deploy it once, and any AI that supports MCP can connect to it and immediately use all the tools inside, with no extra work.
 
-| Category | Tools |
-|---|---|
-| 💼 Business Logic | calculate_discount, validate_email, generate_invoice, schedule_reminder |
-| 📊 Data Processing | analyze_csv_data, transform_json_data, filter_data, aggregate_data, merge_datasets |
-| 🗄️ Database | supabase_query, supabase_insert, supabase_update, postgres_execute |
-| 🌐 External APIs | brave_search, slack_send_message, slack_list_channels, get_weather |
+This server has 17 tools split across four categories:
 
-**What problem does it solve?**
-Normally, building AI tools means writing custom integrations for every AI platform. MCP changes that — it's like a USB standard for AI. You build ONE server, deploy it once, and any MCP-compatible AI immediately has access to all your tools with zero extra integration work.
+- Business Logic — calculate_discount, validate_email, generate_invoice, schedule_reminder
+- Data Processing — analyze_csv_data, transform_json_data, filter_data, aggregate_data, merge_datasets
+- Database — supabase_query, supabase_insert, supabase_update, postgres_execute
+- External APIs — brave_search, slack_send_message, slack_list_channels, get_weather
 
-**Docs:** https://docs.dedaluslabs.ai/dmcp
+The server is production-ready and live right now. Any AI agent can call these tools using plain English.
 
----
-
-## 🎤 OPENING
-
-> "Good Day. Today I'm going to show you a live demo of the **DAuth MCP Server** — a fully deployed AI tool server built on the **Model Context Protocol** standard, hosted on Dedalus Labs.
->
-> Think of MCP as a USB standard for AI. Instead of every AI needing its own custom plugins, any MCP-compatible AI — Claude, GPT, Cursor — can plug into ONE server and immediately get access to all the tools inside it.
->
-> I built this server, deployed it to the cloud, and right now it is live at this URL:
-> **https://mcp.dedaluslabs.ai/0953950c17f204c4**
->
-> It has **17 tools** across 4 categories: Business Logic, Data Processing, Database, and External APIs. I'm going to demo each one live right now."
+Dedalus docs: https://docs.dedaluslabs.ai/dmcp
 
 ---
 
-## ⚙️ STEP 1 — Terminal Setup
+## Opening (say this to the audience)
 
-**Open Terminal and run these:**
+Good morning everyone. My name is John and today I will show you a live demo of the DAuth MCP Server — a fully deployed AI tool server I built using the Model Context Protocol, hosted on Dedalus Labs.
 
-```bash
-cd "/Users/johnoseni/Downloads/Dedalus-Labs MCP Servers"
+MCP is an open standard that works like a USB port for AI. Instead of building different plugins for every AI platform, I build one server, deploy it once, and any MCP-compatible AI — Claude, GPT, Cursor, or a custom agent — can connect to it and immediately use all its tools.
+
+The server I built is live right now at this URL: https://mcp.dedaluslabs.ai/0953950c17f204c4
+
+It has 17 tools covering business logic, data processing, database operations, and external API calls. I will demonstrate each category right now.
+
+---
+
+## Step 1 — Open Terminal and Set Up
+
+Run these commands:
+
 ```
-```bash
+cd "/Users/johnoseni/Downloads/Dedalus-Labs MCP Servers"
 source venv/bin/activate
 ```
 
-**SAY:**
-> "I'm loading the local Python environment. The server itself is already running live in the cloud — I'm just setting up the demo client that will call it."
+Tell the audience: The server is already running live in the cloud. I am just loading the local demo client that connects to it.
 
 ---
 
-## 🎮 STEP 2 — Launch the Interactive Client
+## Step 2 — Start the Demo Client
 
-```bash
+```
 python interactive_client.py
 ```
 
-**SAY:**
-> "This is the interactive demo client. It loaded all 17 tools straight from the server. You can see them listed here — I'll now run through a few live examples."
+Tell the audience: This client loaded all 17 tools directly from the deployed server. You can see them all listed. I will now call some of them live.
 
 ---
 
-## 🔢 STEP 3 — Live Tool Demos
+## Step 3 — Live Demos
 
 ---
 
-### 🟢 DEMO 1 — `calculate_discount` (Tool #5)
+### Demo 1 — Calculate Discount (select 5)
 
-**SAY:**
-> "Let's start with business logic. Imagine an e-commerce checkout — the AI calculates the final price automatically."
+Tell the audience: Let me start with business logic. Imagine an AI handling an e-commerce checkout — it can work out the final price automatically.
 
-Select: **5**
+Select 5 from the menu.
 
-Enter when prompted:
-```
-price:            100
-discount_percent: 20
-tax_rate:         7.5
-```
+Enter these values:
+- price: 100
+- discount_percent: 20
+- tax_rate: 7.5
 
-**SAY:**
-> "The server returns the original price, the discount saved, tax applied, and the exact final price — all as clean structured JSON. Any AI or frontend can consume this instantly."
+Tell the audience: The server returns the original price, how much was saved, the tax amount, and the exact final price — all as structured data. Any AI or app can use this result immediately.
 
 ---
 
-### 🟢 DEMO 2 — `generate_invoice` (Tool #7)
+### Demo 2 — Generate Invoice (select 7)
 
-**SAY:**
-> "Now let's generate a real invoice — this is the kind of task a finance AI agent would handle end-to-end."
+Tell the audience: Now let me generate a real invoice. This is the kind of task a finance AI agent would handle end-to-end.
 
-Select: **7**
+Select 7 from the menu.
 
-Enter when prompted:
-```
-customer: {"name": "Acme Corp", "email": "billing@acme.com"}
-items:    [{"name": "Server License", "price": 299.99, "qty": 2}]
-```
+Enter these values:
+- customer: {"name": "Acme Corp", "email": "billing@acme.com"}
+- items: [{"name": "Server License", "price": 299.99, "qty": 2}]
 
-**SAY:**
-> "The server generates a unique invoice ID with a timestamp, customer details, line items, and the calculated total. An AI agent can call this, email the result, and log it to the database — all automatically."
+Tell the audience: The server created a full invoice — unique ID, timestamp, customer details, line items, and calculated total. An AI agent can call this, email the invoice, and log it to the database, all on its own.
 
 ---
 
-### 🟢 DEMO 3 — `validate_email` (Tool #6)
+### Demo 3 — Validate Email (select 6)
 
-**SAY:**
-> "This one is simple but very useful — real-time email validation."
+Tell the audience: Simple but very practical — real-time email validation.
 
-Select: **6**
+Select 6 from the menu.
 
-Enter when prompted:
-```
-email: john@dedaluslabs.ai
-```
+Enter this value:
+- email: john@dedaluslabs.ai
 
-**SAY:**
-> "It validates the format and extracts the domain. An AI agent handling user signups or form submissions can call this in real time to prevent bad data."
+Tell the audience: It validated the format and extracted the domain. Any AI handling user signups can call this in real time to prevent bad data getting into the system.
 
 ---
 
-### 🟢 DEMO 4 — `analyze_csv_data` (Tool #9)
+### Demo 4 — Analyze CSV Data (select 9)
 
-**SAY:**
-> "Now data processing. Imagine a user uploads a CSV — the AI can analyze it immediately, no spreadsheet software needed."
+Tell the audience: Now data processing. A user uploads a CSV — the AI can analyze it instantly, no spreadsheet needed.
 
-Select: **9**
+Select 9 from the menu.
 
-Enter when prompted:
-```
-csv_string: name,age,salary
-John,30,50000
-Jane,25,60000
-Bob,35,75000
-```
-*(type each line and press Enter, then press Enter again on an empty line to submit)*
+Enter this value (type it line by line, press Enter at the end):
+- csv_string:
+  name,age,salary
+  John,30,50000
+  Jane,25,60000
+  Bob,35,75000
 
-**SAY:**
-> "The server uses pandas to return full statistics — mean, max, sum, count — across every numeric column, instantly."
+Tell the audience: The server calculated mean, max, sum, and count across every numeric column — returned instantly. That is three rows of data analyzed in milliseconds.
 
 ---
 
-### 🟢 DEMO 5 — `get_weather` (Tool #17)
+### Demo 5 — Get Live Weather (select 17)
 
-**SAY:**
-> "Now let's call a live external API. This shows how the MCP server wraps third-party APIs and makes them instantly available to any AI."
+Tell the audience: Now let me call a real external API. This shows how the server wraps third-party services and makes them available to any AI.
 
-Select: **17**
+Select 17 from the menu.
 
-Enter when prompted:
-```
-city: Lagos
-```
+Enter this value:
+- city: Lagos
 
-**SAY:**
-> "That just hit the OpenWeatherMap API and returned live weather for Lagos — temperature, humidity, wind speed, all real-time. Any AI agent can now answer 'what's the weather in Lagos?' without you writing any integration code."
+Tell the audience: That just hit the OpenWeatherMap API and returned live weather for Lagos right now — temperature, humidity, wind speed. Any AI agent can answer "what is the weather today?" without anyone writing a custom integration.
 
 ---
 
-### 🟢 DEMO 6 — `supabase_query` (Tool #1)
+### Demo 6 — Query the Live Database (select 1)
 
-**SAY:**
-> "Finally, let's query the live production database directly."
+Tell the audience: Finally, let me query the live production database.
 
-Select: **1**
+Select 1 from the menu.
 
-Enter when prompted:
-```
-table:   products
-filters: (press Enter to skip — returns all records)
-```
+Enter these values:
+- table: products
+- filters: (just press Enter, leave empty — this returns all records)
 
-**SAY:**
-> "That just ran a SELECT on our live Supabase PostgreSQL database. Real records, returned in real time. An AI agent can read, insert, and update this database using plain English — no SQL knowledge needed."
+Tell the audience: That ran a SELECT query against a live Supabase PostgreSQL database and returned real records. An AI agent can read, insert, and update this database using plain English. No SQL knowledge needed.
 
 ---
 
-## 🤖 STEP 4 (OPTIONAL) — Full AI Agent Demo
+## Step 4 — Full AI Agent Demo (only if time allows)
 
-**SAY:**
-> "Now let me show you the full end-to-end: a Claude AI agent using these tools autonomously — no manual selection, just a natural language prompt."
+Tell the audience: Now I want to show the full end-to-end. A real AI agent using these tools autonomously — no manual selection from my side, just a natural language instruction.
 
-```bash
+```
 python test_client.py
 ```
 
-**SAY:**
-> "I'm sending plain English instructions to Claude. It reads them, decides which MCP tools to call, calls them on our deployed server, and gives back a natural language response. The AI selected and called the right tool entirely on its own."
+Tell the audience: I sent plain English prompts to an AI. It read them, decided which tools to call on my deployed server, called them, and gave back a natural language response. The AI did all the tool selection by itself.
 
 ---
 
-## 🌐 STEP 5 — Show the Live Deployed Server
+## Step 5 — Show the Live Server in the Browser
 
-**Open a browser and navigate to:**
-```
+Open a browser and go to:
 https://mcp.dedaluslabs.ai/0953950c17f204c4
-```
 
-**SAY:**
-> "This is the server running live in the cloud right now. Any MCP-compatible AI — Cursor, Claude Desktop, a custom agent — can point to this single URL and immediately discover and use all 17 tools, with zero extra setup. The tools are self-describing through the MCP protocol, so the AI automatically knows what each one does."
+Tell the audience: This is the server running live in the cloud right now. Any MCP-compatible AI can point to this URL and immediately discover and use all 17 tools. No setup, no integration code — just the URL.
 
 ---
 
-## 🧪 TESTING THE DEPLOYED SERVER DIRECTLY (No Local Machine Needed)
+## Testing the Deployed Server Without the Local Machine
 
-> If you want to test the live deployed server directly — without running anything locally — here are your options:
+If you want to call the deployed server directly without running anything locally, there are a few ways.
 
 ---
 
-### Option A — Using `curl` to Hit the Server Directly
+### Option 1 — Using curl from any terminal
 
-The deployed server speaks the MCP protocol over HTTP/SSE. You can call it directly from any terminal:
-
-```bash
-# Check that the server is reachable
-curl -i https://mcp.dedaluslabs.ai/0953950c17f204c4
+List all tools:
 ```
-
-```bash
-# Send a proper MCP JSON-RPC request to list available tools
 curl -X POST https://mcp.dedaluslabs.ai/0953950c17f204c4 \
   -H "Content-Type: application/json" \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
 ```
 
-```bash
-# Call the calculate_discount tool directly on the deployed server
+Call a tool directly:
+```
 curl -X POST https://mcp.dedaluslabs.ai/0953950c17f204c4 \
   -H "Content-Type: application/json" \
   -d '{
@@ -248,9 +207,9 @@ curl -X POST https://mcp.dedaluslabs.ai/0953950c17f204c4 \
 
 ---
 
-### Option B — Connect Claude Desktop to Your Deployed Server
+### Option 2 — Connect Claude Desktop to the server
 
-Add this to your Claude Desktop config file (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+Add this to: ~/Library/Application Support/Claude/claude_desktop_config.json
 
 ```json
 {
@@ -262,66 +221,64 @@ Add this to your Claude Desktop config file (`~/Library/Application Support/Clau
 }
 ```
 
-Then restart Claude Desktop → your 17 tools will appear automatically and Claude can call them from any conversation.
+Restart Claude Desktop. All 17 tools will appear and Claude can call them from any conversation.
 
 ---
 
-### Option C — Connect from Cursor (AI Code Editor)
+### Option 3 — Connect from Cursor
 
-In Cursor, go to **Settings → MCP Servers** and add:
-```
+In Cursor go to Settings → MCP Servers and add:
 https://mcp.dedaluslabs.ai/0953950c17f204c4
-```
-Cursor will discover all 17 tools and your AI can use them directly inside your code editor.
+
+The tools are discovered automatically.
 
 ---
 
-### Option D — Connect from the Dedalus Labs Dashboard
+### Option 4 — Use the Dedalus Labs Dashboard
 
-1. Go to → **https://www.dedaluslabs.ai/dashboard/overview**
-2. Navigate to your MCP servers
-3. Your deployed server should already appear — you can test tool calls directly from the dashboard UI with no code needed
+Go to: https://www.dedaluslabs.ai/dashboard/overview
 
----
-
-## 🎤 CLOSING — What to SAY
-
-> "So to summarize what you've just seen:
->
-> ✅ **A live deployed MCP server** — accessible to any AI client from a single URL
-> ✅ **Business logic** — pricing, invoicing, email validation
-> ✅ **Data processing** — CSV analysis, JSON transformations, filtering, aggregation
-> ✅ **Live database** — Supabase read/write in real time
-> ✅ **External APIs** — live weather, web search, Slack messaging
->
-> No custom integrations. No re-building for each AI. One URL, every tool, any AI.
->
-> I'm happy to take questions."
+The deployed server appears in the dashboard. You can test tool calls directly from the UI with no code needed.
 
 ---
 
-## 📋 QUICK COMMAND REFERENCE
+## Closing (say this to the audience)
 
-| What | Command / URL |
-|------|--------------|
-| Go to project folder | `cd "/Users/johnoseni/Downloads/Dedalus-Labs MCP Servers"` |
-| Activate environment | `source venv/bin/activate` |
-| Run interactive demo | `python interactive_client.py` |
-| Run full AI agent demo | `python test_client.py` |
-| Start server locally | `python main.py` |
-| **Live deployed server** | **https://mcp.dedaluslabs.ai/0953950c17f204c4** |
-| Dedalus Docs | https://docs.dedaluslabs.ai/dmcp |
-| Dedalus Dashboard | https://www.dedaluslabs.ai/dashboard/overview |
+So to wrap up what you have just seen:
+
+- A live deployed MCP server accessible to any compatible AI from a single URL
+- Business logic tools for pricing, invoicing, and validation
+- Data processing tools for CSV analysis and JSON transformations
+- Live database tools reading and writing to Supabase in real time
+- External API tools pulling live weather, web search, and Slack
+
+No custom integrations. No rebuilding for each AI platform. One URL, 17 tools, any AI.
+
+I am happy to take questions.
 
 ---
 
-## 🛟 IF SOMETHING GOES WRONG
+## Quick Reference
+
+| What | Value |
+|------|-------|
+| Project folder | /Users/johnoseni/Downloads/Dedalus-Labs MCP Servers |
+| Activate environment | source venv/bin/activate |
+| Interactive demo | python interactive_client.py |
+| AI agent demo | python test_client.py |
+| Start locally | python main.py |
+| Live server | https://mcp.dedaluslabs.ai/0953950c17f204c4 |
+| Dedalus docs | https://docs.dedaluslabs.ai/dmcp |
+| Dashboard | https://www.dedaluslabs.ai/dashboard/overview |
+
+---
+
+## If Something Breaks
 
 | Problem | Fix |
 |---------|-----|
-| `ModuleNotFoundError` | Run `source venv/bin/activate` first |
-| `Missing DEDALUS_API_KEY` | Check your `.env` file has the key |
-| Weather/search tool fails | Check `OPENWEATHER_API_KEY` / `BRAVE_API_KEY` in `.env` |
-| Supabase error | Check `SUPABASE_URL` and `SUPABASE_KEY` in `.env` |
-| 0 tools loaded | Make sure you're running from the project root folder, not inside `tools/` |
-| curl returns 401 | The server requires an auth header — use the dashboard instead |
+| ModuleNotFoundError | Run: source venv/bin/activate |
+| Missing DEDALUS_API_KEY | Check the .env file |
+| Weather or search tool fails | Check OPENWEATHER_API_KEY and BRAVE_API_KEY in .env |
+| Supabase error | Check SUPABASE_URL and SUPABASE_KEY in .env |
+| 0 tools loaded | Make sure you are running from the project root folder |
