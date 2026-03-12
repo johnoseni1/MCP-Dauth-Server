@@ -46,7 +46,7 @@ cd "/Users/johnoseni/Downloads/Dedalus-Labs MCP Servers"
 source venv/bin/activate
 ```
 
-Tell the audience: The server is already running live in the cloud. I am just loading the local demo client that connects to it.
+ The server is already running live in the cloud. I am just loading the local demo client that connects to it.
 
 ---
 
@@ -56,7 +56,7 @@ Tell the audience: The server is already running live in the cloud. I am just lo
 python interactive_client.py
 ```
 
-Tell the audience: This client loaded all 17 tools directly from the deployed server. You can see them all listed. I will now call some of them live.
+This client loaded all 17 tools directly from the deployed server. You can see them all listed. I will now call some of them live.
 
 ---
 
@@ -66,7 +66,7 @@ Tell the audience: This client loaded all 17 tools directly from the deployed se
 
 ### Demo 1 — Calculate Discount (select 5)
 
-Tell the audience: Let me start with business logic. Imagine an AI handling an e-commerce checkout — it can work out the final price automatically.
+Let me start with business logic. Imagine an AI handling an e-commerce checkout — it can work out the final price automatically.
 
 Select 5 from the menu.
 
@@ -75,13 +75,13 @@ Enter these values:
 - discount_percent: 20
 - tax_rate: 7.5
 
-Tell the audience: The server returns the original price, how much was saved, the tax amount, and the exact final price — all as structured data. Any AI or app can use this result immediately.
+The server returns the original price, how much was saved, the tax amount, and the exact final price — all as structured data. Any AI or app can use this result immediately.
 
 ---
 
 ### Demo 2 — Generate Invoice (select 7)
 
-Tell the audience: Now let me generate a real invoice. This is the kind of task a finance AI agent would handle end-to-end.
+Now let me generate a real invoice. This is the kind of task a finance AI agent would handle end-to-end.
 
 Select 7 from the menu.
 
@@ -89,26 +89,26 @@ Enter these values:
 - customer: {"name": "Acme Corp", "email": "billing@acme.com"}
 - items: [{"name": "Server License", "price": 299.99, "qty": 2}]
 
-Tell the audience: The server created a full invoice — unique ID, timestamp, customer details, line items, and calculated total. An AI agent can call this, email the invoice, and log it to the database, all on its own.
+    The server created a full invoice — unique ID, timestamp, customer details, line items, and calculated total. An AI agent can call this, email the invoice, and log it to the database, all on its own.
 
 ---
 
 ### Demo 3 — Validate Email (select 6)
 
-Tell the audience: Simple but very practical — real-time email validation.
+: Simple but very practical — real-time email validation.
 
 Select 6 from the menu.
 
 Enter this value:
 - email: john@dedaluslabs.ai
 
-Tell the audience: It validated the format and extracted the domain. Any AI handling user signups can call this in real time to prevent bad data getting into the system.
+: It validated the format and extracted the domain. Any AI handling user signups can call this in real time to prevent bad data getting into the system.
 
 ---
 
 ### Demo 4 — Analyze CSV Data (select 9)
 
-Tell the audience: Now data processing. A user uploads a CSV — the AI can analyze it instantly, no spreadsheet needed.
+ Now data processing. A user uploads a CSV — the AI can analyze it instantly, no spreadsheet needed.
 
 Select 9 from the menu.
 
@@ -119,26 +119,26 @@ Enter this value (type it line by line, press Enter at the end):
   Jane,25,60000
   Bob,35,75000
 
-Tell the audience: The server calculated mean, max, sum, and count across every numeric column — returned instantly. That is three rows of data analyzed in milliseconds.
+ The server calculated mean, max, sum, and count across every numeric column — returned instantly. That is three rows of data analyzed in milliseconds.
 
 ---
 
 ### Demo 5 — Get Live Weather (select 17)
 
-Tell the audience: Now let me call a real external API. This shows how the server wraps third-party services and makes them available to any AI.
+ Now let me call a real external API. This shows how the server wraps third-party services and makes them available to any AI.
 
 Select 17 from the menu.
 
 Enter this value:
 - city: Lagos
 
-Tell the audience: That just hit the OpenWeatherMap API and returned live weather for Lagos right now — temperature, humidity, wind speed. Any AI agent can answer "what is the weather today?" without anyone writing a custom integration.
+ That just hit the OpenWeatherMap API and returned live weather for Lagos right now — temperature, humidity, wind speed. Any AI agent can answer "what is the weather today?" without anyone writing a custom integration.
 
 ---
 
 ### Demo 6 — Query the Live Database (select 1)
 
-Tell the audience: Finally, let me query the live production database.
+ Finally, let me query the live production database.
 
 Select 1 from the menu.
 
@@ -146,19 +146,19 @@ Enter these values:
 - table: products
 - filters: (just press Enter, leave empty — this returns all records)
 
-Tell the audience: That ran a SELECT query against a live Supabase PostgreSQL database and returned real records. An AI agent can read, insert, and update this database using plain English. No SQL knowledge needed.
+ That ran a SELECT query against a live Supabase PostgreSQL database and returned real records. An AI agent can read, insert, and update this database using plain English. No SQL knowledge needed.
 
 ---
 
 ## Step 4 — Full AI Agent Demo (only if time allows)
 
-Tell the audience: Now I want to show the full end-to-end. A real AI agent using these tools autonomously — no manual selection from my side, just a natural language instruction.
+ Now I want to show the full end-to-end. A real AI agent using these tools autonomously — no manual selection from my side, just a natural language instruction.
 
 ```
 python test_client.py
 ```
 
-Tell the audience: I sent plain English prompts to an AI. It read them, decided which tools to call on my deployed server, called them, and gave back a natural language response. The AI did all the tool selection by itself.
+ I sent plain English prompts to an AI. It read them, decided which tools to call on my deployed server, called them, and gave back a natural language response. The AI did all the tool selection by itself.
 
 ---
 
@@ -167,7 +167,7 @@ Tell the audience: I sent plain English prompts to an AI. It read them, decided 
 Open a browser and go to:
 https://mcp.dedaluslabs.ai/0953950c17f204c4
 
-Tell the audience: This is the server running live in the cloud right now. Any MCP-compatible AI can point to this URL and immediately discover and use all 17 tools. No setup, no integration code — just the URL.
+ This is the server running live in the cloud right now. Any MCP-compatible AI can point to this URL and immediately discover and use all 17 tools. No setup, no integration code — just the URL.
 
 ---
 
