@@ -78,7 +78,7 @@ python main.py
 
 ---
 
-## 🧪 Testing
+##  Testing
 
 ### Local API Verification
 ```bash
@@ -91,21 +91,90 @@ Use the **Interactive Client** to test any tool manually without writing code:
 python interactive_client.py
 ```
 
-### Dedalus Labs Integration (Demo curl)
-To test your deployed server via the Dedalus API:
+###  Dedalus Labs Live Demo (Full Command Suite)
+
+To test any tool through the Dedalus API, use the templates below. Replace `YOUR_DEDALUS_KEY` with your API key and `YOUR_SERVER_HANDLE` with your server's registered handle.
+
+####  Business & Logic
+<details>
+<summary>View Commands</summary>
+
+**Calculate Discount**
 ```bash
-export DEDALUS_API_KEY=your_key && curl -s -X POST https://api.dedaluslabs.ai/v1/chat/completions \
-  -H "Authorization: Bearer ${DEDALUS_API_KEY}" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "openai/gpt-4.1",
-    "messages": [
-      {
-        "role": "user",
-        "content": "List all our Slack channels. Use the slack_list_channels tool."
-      }
-    ],
-    "mcp_servers": ["YOUR_SERVER_HANDLE"]
-  }'
+curl -s -X POST https://api.dedaluslabs.ai/v1/chat/completions \
+  -H "Authorization: Bearer YOUR_DEDALUS_KEY" -H "Content-Type: application/json" \
+  -d '{"model": "openai/gpt-4.1", "messages": [{"role": "user", "content": "Calculate the price for a $200 item with 15% discount and 5% tax. Use calculate_discount."}], "mcp_servers": ["YOUR_SERVER_HANDLE"]}'
 ```
+
+**Validate Email**
+```bash
+curl -s -X POST https://api.dedaluslabs.ai/v1/chat/completions \
+  -H "Authorization: Bearer YOUR_DEDALUS_KEY" -H "Content-Type: application/json" \
+  -d '{"model": "openai/gpt-4.1", "messages": [{"role": "user", "content": "Validate if test@example.com is a valid email. Use validate_email."}], "mcp_servers": ["YOUR_SERVER_HANDLE"]}'
+```
+</details>
+
+####  Data Processing
+<details>
+<summary>View Commands</summary>
+
+**Analyze CSV**
+```bash
+curl -s -X POST https://api.dedaluslabs.ai/v1/chat/completions \
+  -H "Authorization: Bearer YOUR_DEDALUS_KEY" -H "Content-Type: application/json" \
+  -d '{"model": "openai/gpt-4.1", "messages": [{"role": "user", "content": "Analyze these sales: 10,20,30,40. Use analyze_csv_data."}], "mcp_servers": ["YOUR_SERVER_HANDLE"]}'
+```
+
+**JSON Transformation**
+```bash
+curl -s -X POST https://api.dedaluslabs.ai/v1/chat/completions \
+  -H "Authorization: Bearer YOUR_DEDALUS_KEY" -H "Content-Type: application/json" \
+  -d '{"model": "openai/gpt-4.1", "messages": [{"role": "user", "content": "Uppercase these names: [\"alice\", \"bob\"]. Use transform_json_data."}], "mcp_servers": ["YOUR_SERVER_HANDLE"]}'
+```
+</details>
+
+####  Database Management
+<details>
+<summary>View Commands</summary>
+
+**Supabase Search**
+```bash
+curl -s -X POST https://api.dedaluslabs.ai/v1/chat/completions \
+  -H "Authorization: Bearer YOUR_DEDALUS_KEY" -H "Content-Type: application/json" \
+  -d '{"model": "openai/gpt-4.1", "messages": [{"role": "user", "content": "Find all products in our supabase database. Use supabase_query."}], "mcp_servers": ["YOUR_SERVER_HANDLE"]}'
+```
+
+**Postgres Raw SQL**
+```bash
+curl -s -X POST https://api.dedaluslabs.ai/v1/chat/completions \
+  -H "Authorization: Bearer YOUR_DEDALUS_KEY" -H "Content-Type: application/json" \
+  -d '{"model": "openai/gpt-4.1", "messages": [{"role": "user", "content": "Get the current database time using postgres_execute with SELECT NOW()."}], "mcp_servers": ["YOUR_SERVER_HANDLE"]}'
+```
+</details>
+
+####  External Connectivity
+<details>
+<summary>View Commands</summary>
+
+**Slack Channel List**
+```bash
+curl -s -X POST https://api.dedaluslabs.ai/v1/chat/completions \
+  -H "Authorization: Bearer YOUR_DEDALUS_KEY" -H "Content-Type: application/json" \
+  -d '{"model": "openai/gpt-4.1", "messages": [{"role": "user", "content": "List all our Slack channels. Use slack_list_channels."}], "mcp_servers": ["YOUR_SERVER_HANDLE"]}'
+```
+
+**Brave Web Search**
+```bash
+curl -s -X POST https://api.dedaluslabs.ai/v1/chat/completions \
+  -H "Authorization: Bearer YOUR_DEDALUS_KEY" -H "Content-Type: application/json" \
+  -d '{"model": "openai/gpt-4.1", "messages": [{"role": "user", "content": "Search for the latest tech news. Use brave_search."}], "mcp_servers": ["YOUR_SERVER_HANDLE"]}'
+```
+
+**Weather Check**
+```bash
+curl -s -X POST https://api.dedaluslabs.ai/v1/chat/completions \
+  -H "Authorization: Bearer YOUR_DEDALUS_KEY" -H "Content-Type: application/json" \
+  -d '{"model": "openai/gpt-4.1", "messages": [{"role": "user", "content": "What is the weather in London? Use get_weather."}], "mcp_servers": ["YOUR_SERVER_HANDLE"]}'
+```
+</details>
 
