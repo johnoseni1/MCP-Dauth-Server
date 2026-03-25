@@ -39,42 +39,51 @@ This server follows the **MCP Security Model** to ensure your credentials remain
 
 ---
 
-##  Deployment
+##  Quick Start
 
-### Environment Configuration
-Create a `.env` file with the following variables:
+Follow these steps to get your MCP server up and running in minutes:
 
+### 1. Installation
+Ensure you have **Python 3.13+** installed, then clone the repo and install dependencies:
 ```bash
-# Core API Key
-DEDALUS_API_KEY=your_dedalus_api_key
-
-# Database (PostgreSQL)
-POSTGRES_HOST=your.database.host
-POSTGRES_PORT=5432
-POSTGRES_DB=your_db_name
-POSTGRES_USER=your_db_user
-POSTGRES_PASSWORD=your_db_password
-
-# Database (Supabase)
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_KEY=your_supabase_service_role_key
-
-# External Services (Required for Integration Tools)
-BRAVE_API_KEY=your_brave_search_api_key
-SLACK_BOT_TOKEN=your_slack_bot_token
-OPENWEATHER_API_KEY=your_openweather_api_key
+git clone https://github.com/johnoseni1/MCP-Dauth-Server.git
+cd MCP-Dauth-Server
+pip install -r requirements.txt
 ```
+
+### 2. Configuration
+Copy the template and fill in your actual credentials:
+```bash
+cp .env.example .env
+# Open .env and add your Slack/DB/Brave keys
+```
+
+#### Environment Variable Reference
+| Variable | Description | Required For |
+| :--- | :--- | :--- |
+| `DEDALUS_API_KEY` | Dedalus Labs API Key | Core Server |
+| `POSTGRES_*` | Host, Port, DB, User, Pwd | PostgreSQL Tools |
+| `SUPABASE_*` | URL and Service Role Key | Supabase Tools |
+| `SLACK_BOT_TOKEN` | Bot User OAuth Token (`xoxb-`) | Slack Tools |
+| `BRAVE_API_KEY` | Brave Search API Key | Search Tools |
+| `OPENWEATHER_API_KEY` | OpenWeatherMap API Key | Weather Tools |
 
 > [!IMPORTANT]
 > **Slack Setup**: Ensure your bot has `chat:write`, `channels:read`, and `groups:read` scopes. You **must** invite the bot to a channel (e.g., `/invite @MyBot`) before it can post messages.
 
-### Running the Server
+### 3. Database Setup (Optional)
+If you are using the PostgreSQL/Supabase features, run the schema initializer:
+```bash
+python db_setup.py
+```
+
+### 4. Running the Server
 ```bash
 python main.py
 ```
 
-*   **Local**: Typically runs via **Stdio**.
-*   **Cloud (Railway/Render)**: Automatically switches to **HTTP/SSE** if a `PORT` is detected.
+*   **Local**: Runs via **Stdio** for direct LLM integration (like Claude Desktop).
+*   **Cloud (Railway/Render)**: Automatically switches to **HTTP/SSE** if a `PORT` environment variable is detected.
 
 ---
 
