@@ -23,6 +23,12 @@ A comprehensive Model Context Protocol (MCP) server designed for **Business Logi
 - **`supabase_update`**: Update existing records.
 - **`postgres_execute`**: Execute raw SQL queries (for complex operations).
 
+### 4.  External Integrations (Slack / Search / Weather)
+- **`slack_send_message`**: Send a message to a specific Slack channel.
+- **`slack_list_channels`**: List available public Slack channels.
+- **`brave_search`**: Perform a web search using the Brave Search API.
+- **`get_weather`**: Retrieve real-time weather information for any city.
+
 ##  Deployment
 
 ### Prerequisites
@@ -34,19 +40,24 @@ A comprehensive Model Context Protocol (MCP) server designed for **Business Logi
 Configure the following in your deployment environment or `.env` file:
 
 ```bash
-
+# Core API Key
 DEDALUS_API_KEY=your_dedalus_api_key
 
-
+# Database (PostgreSQL)
 POSTGRES_HOST=your.database.host
 POSTGRES_PORT=5432
 POSTGRES_DB=your_db_name
 POSTGRES_USER=your_db_user
 POSTGRES_PASSWORD=your_db_password
 
-
+# Database (Supabase)
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_KEY=your_supabase_service_role_key
+
+# External Services (Optional but required for specific tools)
+BRAVE_API_KEY=your_brave_search_api_key
+SLACK_BOT_TOKEN=your_slack_bot_token
+OPENWEATHER_API_KEY=your_openweather_api_key
 ```
 
 ### Database Setup

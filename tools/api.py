@@ -32,7 +32,13 @@ async def brave_search(query: str, count: int = 5) -> Dict:
 
 
 async def slack_send_message(channel: str, text: str) -> Dict:
-    """Send a message to a Slack channel"""
+    """
+    Send a message to a Slack channel.
+    Args:
+        channel: The channel name (e.g., 'general') or ID (e.g., 'C12345'). 
+                 Note: The bot MUST be a member of the channel or be invited via `/invite @botname`.
+        text: The message content to send.
+    """
     try:
         client = await get_http_client()
         token = os.getenv("SLACK_BOT_TOKEN")
@@ -52,18 +58,22 @@ async def slack_send_message(channel: str, text: str) -> Dict:
         return {"success": False, "error": str(e)}
 
 
-async def slack_list_channels() -> Dict:
-    """List public Slack channels"""
+async def slack_list_channels(limit: int = 20) -> Dict:
+    """
+    List public Slack channels in the workspace.
+    Args:
+        limit: Maximum number of channels to retrieve (default 20).
+    """
     try:
         client = await get_http_client()
         token = os.getenv("SLACK_BOT_TOKEN")
         if not token:
             return {"success": False, "error": "Missing SLACK_BOT_TOKEN"}
             
-        resp = await client.post(
+        resp = await client.get(
             "https://slack.com/api/conversations.list",
             headers={"Authorization": f"Bearer {token}"},
-            data={"types": "public_channel", "exclude_archived": "true"}
+            params={"types": "public_channel", "exclude_archived": "true", "limit": limit}
         )
         data = resp.json()
         if not data.get("ok"):
