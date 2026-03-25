@@ -1,12 +1,8 @@
-#!/bin/bash
-# DAuth MCP Server — Direct REST API Test
-# Shows how any app can use your deployed MCP server without any Python SDK
-# Just a standard HTTP POST with your Dedalus API Key
 
-# Your Dedalus API Key
-API_KEY="dsk-test-28fa7d847893-7a35d0005301d54e919df7a257b55c32"
 
-# Your Deployed Server Identifier on Dedalus Marketplace
+API_KEY="dsk-test-28fa7d847893-7a35d8505301d54e919df7a257b55c32"
+
+
 MCP_SERVER="littlbird/MCP-Dauth-Server"
 
 echo "======================================================="
